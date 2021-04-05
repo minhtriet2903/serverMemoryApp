@@ -38,6 +38,18 @@ const getArticle = (req, res) => {
           error: err.message,
         });
       });
+  if (req.body.keyword)
+    Article.find({ name: { $regex: req.body.keyword } })
+      .then((allArticle) => {
+        return res.status(200).json(allArticle);
+      })
+      .catch((err) => {
+        res.status(500).json({
+          success: false,
+          message: "Server error. Please try again.",
+          error: err.message,
+        });
+      });
   else {
     Article.find()
       .then((allArticle) => {

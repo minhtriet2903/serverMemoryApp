@@ -31,17 +31,31 @@ const getUserById = (req, res) => {
 
 const getUserByName = (req, res) => {
   const name = req.params.name;
-  User.find({ name: { $regex: name } })
-    .then((user) => {
-      return res.status(200).json(user);
-    })
-    .catch((err) => {
-      res.status(500).json({
-        success: false,
-        message: "This user does not exist",
-        error: err.message,
+  if (name) {
+    User.find({ name: { $regex: name } })
+      .then((user) => {
+        return res.status(200).json(user);
+      })
+      .catch((err) => {
+        res.status(500).json({
+          success: false,
+          message: "This user does not exist",
+          error: err.message,
+        });
       });
-    });
+  } else {
+    User.find()
+      .then((users) => {
+        return res.status(200).json(users);
+      })
+      .catch((err) => {
+        res.status(500).json({
+          success: false,
+          message: "Server error. Please try again.",
+          error: err.message,
+        });
+      });
+  }
 };
 const updateUser = (req, res) => {
   const id = req.params.id;

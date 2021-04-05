@@ -11,5 +11,6 @@ router.put("/users/:id", userController.updateUser);
 router.get("/users", userController.getUsers);
 router.get("/users/:id", userController.getUserById);
 router.get("/users/:id/articles", articleController.getArticleOfUser);
+router.get("/users/getByName/:name", userController.getUserByName);
 
 module.exports = router;
