@@ -25,17 +25,32 @@ const createArticle = (req, res) => {
 };
 
 const getArticle = (req, res) => {
-  Article.find()
-    .then((allArticle) => {
-      return res.status(200).json(allArticle);
-    })
-    .catch((err) => {
-      res.status(500).json({
-        success: false,
-        message: "Server error. Please try again.",
-        error: err.message,
+  console.log(req.body);
+  if (req.body.tag)
+    Article.find({ tags: { $regex: req.body.tag } })
+      .then((allArticle) => {
+        return res.status(200).json(allArticle);
+      })
+      .catch((err) => {
+        res.status(500).json({
+          success: false,
+          message: "Server error. Please try again.",
+          error: err.message,
+        });
       });
-    });
+  else {
+    Article.find()
+      .then((allArticle) => {
+        return res.status(200).json(allArticle);
+      })
+      .catch((err) => {
+        res.status(500).json({
+          success: false,
+          message: "Server error. Please try again.",
+          error: err.message,
+        });
+      });
+  }
 };
 
 const getArticleById = (req, res) => {
@@ -150,7 +165,7 @@ const updateComments = async (req, res) => {
   const id = req.params.id;
   const commentId = req.params.commentId;
   const updateObject = req.body;
-  await Article.updateOne(
+  Article.updateMany(
     { _id: id, comments: { commentId: commentId } },
     { $set: updateObject }
   )

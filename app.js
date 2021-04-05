@@ -8,11 +8,15 @@ const port = 3000;
 global.__basedir = __dirname;
 
 mongoose
-  .connect("mongodb://localhost:27017/sps", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  })
+  .connect(
+    // "mongodb+srv://helloadmin:helloadmin@cluster0.upitw.mongodb.net/helloadmin?authSource=admin&replicaSet=atlas-khilou-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true",
+    "mongodb://localhost:27017/sps",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+    }
+  )
   .then(() => {
     console.log("Database connected");
   })
